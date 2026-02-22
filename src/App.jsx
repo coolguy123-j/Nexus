@@ -28,6 +28,8 @@ export default function App() {
   const iframeContainerRef = useRef(null);
   const proxyContainerRef = useRef(null);
 
+  const FEATURED_GAMES = useMemo(() => GAMES.slice(0, 3), []);
+
   const handleFullscreen = (ref) => {
     if (ref.current) {
       const elem = ref.current;
@@ -45,11 +47,11 @@ export default function App() {
     if (view !== 'home' || searchQuery) return;
     
     const interval = setInterval(() => {
-      setCurrentHeroIndex((prev) => (prev + 1) % GAMES.length);
+      setCurrentHeroIndex((prev) => (prev + 1) % FEATURED_GAMES.length);
     }, 3000); // Slide every 3 seconds
 
     return () => clearInterval(interval);
-  }, [view, searchQuery]);
+  }, [view, searchQuery, FEATURED_GAMES.length]);
 
   const filteredGames = useMemo(() => {
     return GAMES.filter(game => {
@@ -59,7 +61,7 @@ export default function App() {
     });
   }, [selectedCategory, searchQuery]);
 
-  const featuredGame = GAMES[currentHeroIndex] || GAMES[0];
+  const featuredGame = FEATURED_GAMES[currentHeroIndex] || FEATURED_GAMES[0];
 
   return (
     <div className="flex h-screen bg-bg overflow-hidden">
@@ -124,7 +126,25 @@ export default function App() {
         <div className="px-8 pb-12 pt-6">
           {/* Hero Section - Only show on Home */}
           {view === 'home' && !searchQuery && (
-            <div className="relative h-[calc(100vh-100px)] rounded-3xl overflow-hidden mb-12 group">
+            <>
+              <div className="mb-8 flex items-center justify-between">
+                <h1 className="text-4xl font-display font-black text-white tracking-tighter">
+                  NEXUS <span className="text-accent">ARCADE</span>
+                </h1>
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                    <input 
+                      type="text" 
+                      placeholder="Search games..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="bg-surface border border-white/5 rounded-full pl-10 pr-4 py-2 w-64 focus:outline-none focus:border-accent/50 transition-colors"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="relative h-[calc(100vh-180px)] rounded-3xl overflow-hidden mb-12 group">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={featuredGame.id}
@@ -142,9 +162,6 @@ export default function App() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 p-10 max-w-2xl">
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="bg-accent px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Featured Game</span>
-                    </div>
                     <h1 className="text-6xl font-display font-extrabold mb-4 tracking-tight">{featuredGame.title}</h1>
                     <p className="text-white/60 text-lg mb-8 line-clamp-2">{featuredGame.description}</p>
                     <button 
@@ -160,7 +177,7 @@ export default function App() {
               
               {/* Slide Indicators */}
               <div className="absolute bottom-6 right-10 flex gap-2 z-10">
-                {GAMES.map((_, idx) => (
+                {FEATURED_GAMES.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => setCurrentHeroIndex(idx)}
@@ -168,7 +185,8 @@ export default function App() {
                   />
                 ))}
               </div>
-            </div>
+              </div>
+            </>
           )}
 
           {/* Game Grid - Only show on Library or when searching */}
@@ -208,7 +226,7 @@ export default function App() {
                 className="w-full h-[calc(100vh-140px)] rounded-3xl overflow-hidden bg-black border border-white/5 shadow-2xl"
               >
                 <iframe 
-                  src="https://useadurite.netlify.app/"
+                  src="https://etherealproxy.netlify.app/"
                   className="w-full h-full border-none"
                   title="Proxy"
                   allow="autoplay; fullscreen; pointer-lock"
