@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Gamepad2, 
   LayoutGrid, 
@@ -24,6 +24,17 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeGame, setActiveGame] = useState(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+
+  useEffect(() => {
+    if (selectedCategory !== 'All' || searchQuery) return;
+    
+    const interval = setInterval(() => {
+      setCurrentHeroIndex((prev) => (prev + 1) % GAMES.length);
+    }, 5000); // Slide every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [selectedCategory, searchQuery]);
 
   const filteredGames = useMemo(() => {
     return GAMES.filter(game => {
@@ -33,7 +44,7 @@ export default function App() {
     });
   }, [selectedCategory, searchQuery]);
 
-  const featuredGame = GAMES[0];
+  const featuredGame = GAMES[currentHeroIndex] || GAMES[0];
 
   return (
     <div className="flex h-screen bg-bg overflow-hidden">
@@ -99,33 +110,51 @@ export default function App() {
         <div className="px-8 pb-12">
           {/* Hero Section */}
           {selectedCategory === 'All' && !searchQuery && (
-            <motion.section 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="relative h-[400px] rounded-3xl overflow-hidden mb-12 group"
-            >
-              <img 
-                src={featuredGame.thumbnail} 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                alt={featuredGame.title}
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-10 max-w-2xl">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="bg-accent px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Game of the Month</span>
-                </div>
-                <h1 className="text-6xl font-display font-extrabold mb-4 tracking-tight">{featuredGame.title}</h1>
-                <p className="text-white/60 text-lg mb-8 line-clamp-2">{featuredGame.description}</p>
-                <button 
-                  onClick={() => setActiveGame(featuredGame)}
-                  className="bg-white text-bg px-8 py-4 rounded-2xl font-bold flex items-center gap-3 hover:bg-accent hover:text-white transition-all transform hover:scale-105 active:scale-95"
+            <div className="relative h-[400px] rounded-3xl overflow-hidden mb-12 group">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={featuredGame.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.8 }}
+                  className="absolute inset-0"
                 >
-                  <Play size={20} fill="currentColor" />
-                  Play Now
-                </button>
+                  <img 
+                    src={featuredGame.thumbnail} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    alt={featuredGame.title}
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 p-10 max-w-2xl">
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="bg-accent px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Featured Game</span>
+                    </div>
+                    <h1 className="text-6xl font-display font-extrabold mb-4 tracking-tight">{featuredGame.title}</h1>
+                    <p className="text-white/60 text-lg mb-8 line-clamp-2">{featuredGame.description}</p>
+                    <button 
+                      onClick={() => setActiveGame(featuredGame)}
+                      className="bg-white text-bg px-8 py-4 rounded-2xl font-bold flex items-center gap-3 hover:bg-accent hover:text-white transition-all transform hover:scale-105 active:scale-95"
+                    >
+                      <Play size={20} fill="currentColor" />
+                      Play Now
+                    </button>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+              
+              {/* Slide Indicators */}
+              <div className="absolute bottom-6 right-10 flex gap-2 z-10">
+                {GAMES.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentHeroIndex(idx)}
+                    className={`w-2 h-2 rounded-full transition-all ${idx === currentHeroIndex ? 'bg-white w-6' : 'bg-white/30'}`}
+                  />
+                ))}
               </div>
-            </motion.section>
+            </div>
           )}
 
           {/* Game Grid */}
