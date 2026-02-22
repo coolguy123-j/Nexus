@@ -1,28 +1,8 @@
 export const GAMES = [
   {
-    id: '1',
-    title: '1v1.LoL',
-    thumbnail: 'https://picsum.photos/seed/1v1/400/225',
-    iframeUrl: 'https://1v1.lol',
-    category: 'Action',
-    rating: 4.8,
-    plays: '13.7K',
-    description: 'Build and fight in this competitive third-person shooter.'
-  },
-  {
-    id: '6',
-    title: 'Cyber Racer',
-    thumbnail: 'https://picsum.photos/seed/racer/400/225',
-    iframeUrl: 'https://example.com/racer', // Placeholder
-    category: 'Arcade',
-    rating: 4.6,
-    plays: '5.5K',
-    description: 'High-speed racing in a neon-drenched future.'
-  },
-  {
     id: '7',
     title: 'Minecraft',
-    thumbnail: 'https://picsum.photos/seed/minecraft/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771799038364-49b917c9-b127-430b-8b07-2aa146bfb9ab.jpg',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/minecraft/tuff/index.html',
     category: 'Adventure',
     rating: 4.9,
@@ -32,7 +12,7 @@ export const GAMES = [
   {
     id: '8',
     title: 'Driven Wild',
-    thumbnail: 'https://picsum.photos/seed/drivenwild/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771799066698-e3c5fa3e-f92b-4658-a743-08b41ac543d5.jpg',
     iframeUrl: 'https://html-classic.itch.zone/html/15345755/index.html',
     category: 'Racing',
     rating: 4.7,
@@ -42,7 +22,7 @@ export const GAMES = [
   {
     id: '9',
     title: 'Baldis Basics',
-    thumbnail: 'https://picsum.photos/seed/baldi/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771799239802-4d407eaa-1259-4b3f-ac70-e0c3eda079a1.jpg',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/baldis-basics/',
     category: 'Horror',
     rating: 4.5,
@@ -52,7 +32,7 @@ export const GAMES = [
   {
     id: '10',
     title: 'Basket Random',
-    thumbnail: 'https://picsum.photos/seed/basket/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771799304151-7f6376c6-c7c4-4cea-a4f3-cf96827e1a6e.png',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/basket-random/',
     category: 'Sports',
     rating: 4.7,
@@ -62,7 +42,7 @@ export const GAMES = [
   {
     id: '11',
     title: 'A Small World Cup',
-    thumbnail: 'https://picsum.photos/seed/soccer/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771799340848-5c5a0dc3-2d25-4906-94f5-50e6a86eeb3d.avif',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/asmallworldcup/',
     category: 'Sports',
     rating: 4.6,
@@ -72,7 +52,7 @@ export const GAMES = [
   {
     id: '12',
     title: 'Bitlife',
-    thumbnail: 'https://picsum.photos/seed/bitlife/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771799427975-1e1dc0e8-0091-40ae-89ae-47bdbd009ad2.webp',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/bitlife/',
     category: 'Simulation',
     rating: 4.8,
@@ -82,7 +62,7 @@ export const GAMES = [
   {
     id: '13',
     title: 'Buckshot Roulette',
-    thumbnail: 'https://picsum.photos/seed/buckshot/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771799495655-5ef4c776-bc78-4e67-93f1-74f868292ed8.jpg',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/buckshot-roulette/',
     category: 'Horror',
     rating: 4.9,
@@ -92,7 +72,7 @@ export const GAMES = [
   {
     id: '14',
     title: 'Cookie Clicker',
-    thumbnail: 'https://picsum.photos/seed/cookie/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771799548700-12c281af-aedf-4ae8-9241-2be8a4b800a2.avif',
     iframeUrl: 'https://frogiesarcade.net/cdn/projects/cookie-clicker/index.html',
     category: 'Arcade',
     rating: 4.8,
@@ -102,7 +82,7 @@ export const GAMES = [
   {
     id: '15',
     title: 'Crossy Road',
-    thumbnail: 'https://picsum.photos/seed/crossy/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771799584453-b5af1c41-4419-40ea-bd1e-20d7ccf47975.jpg',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/crossyroad/',
     category: 'Arcade',
     rating: 4.7,
@@ -112,7 +92,7 @@ export const GAMES = [
   {
     id: '16',
     title: 'Burger and Frights',
-    thumbnail: 'https://picsum.photos/seed/burger/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771799637708-87c7c509-2db5-459e-a2ad-7f51167ddc48.jpg',
     iframeUrl: 'https://frogiesarcade.net/cdn/projects/burger-and-frights/index.html',
     category: 'Horror',
     rating: 4.6,
