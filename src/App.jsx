@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { 
   Gamepad2, 
   LayoutGrid, 
@@ -14,27 +14,42 @@ import {
   TrendingUp, 
   X,
   Maximize2,
-  ChevronRight
+  Globe
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GAMES } from './constants';
 
 export default function App() {
+  const [view, setView] = useState('home');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeGame, setActiveGame] = useState(null);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+  const iframeContainerRef = useRef(null);
+  const proxyContainerRef = useRef(null);
+
+  const handleFullscreen = (ref) => {
+    if (ref.current) {
+      const elem = ref.current;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      }
+    }
+  };
 
   useEffect(() => {
-    if (selectedCategory !== 'All' || searchQuery) return;
+    if (view !== 'home' || searchQuery) return;
     
     const interval = setInterval(() => {
       setCurrentHeroIndex((prev) => (prev + 1) % GAMES.length);
-    }, 5000); // Slide every 5 seconds
+    }, 3000); // Slide every 3 seconds
 
     return () => clearInterval(interval);
-  }, [selectedCategory, searchQuery]);
+  }, [view, searchQuery]);
 
   const filteredGames = useMemo(() => {
     return GAMES.filter(game => {
@@ -49,68 +64,67 @@ export default function App() {
   return (
     <div className="flex h-screen bg-bg overflow-hidden">
       {/* Sidebar */}
-      <motion.aside 
-        initial={false}
-        animate={{ width: isSidebarCollapsed ? 80 : 240 }}
-        className="flex flex-col border-r border-white/5 bg-surface z-20"
-      >
-        <div className="p-6 flex items-center gap-3">
-          <div className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center font-display font-extrabold text-2xl">
+      <aside className="w-20 flex flex-col border-r border-white/5 bg-surface z-20">
+        <div className="p-6 flex justify-center">
+          <button 
+            onClick={() => setView('home')}
+            className={`w-10 h-10 rounded-xl flex items-center justify-center font-display font-extrabold text-2xl transition-all ${view === 'home' ? 'bg-accent text-white shadow-lg shadow-accent/20' : 'bg-white/5 text-white/40 hover:text-white'}`}
+          >
             N
-          </div>
-          {!isSidebarCollapsed && (
-            <span className="font-display font-bold text-xl tracking-tight">NEXUS</span>
-          )}
+          </button>
         </div>
 
         <nav className="flex-1 px-4 space-y-2 mt-4">
           <SidebarItem 
-            icon={<LayoutGrid size={20} />} 
-            label="Library" 
-            active={selectedCategory === 'All'} 
-            onClick={() => setSelectedCategory('All')}
-            collapsed={isSidebarCollapsed}
+            icon={<Gamepad2 size={20} />} 
+            active={view === 'library'} 
+            onClick={() => setView('library')}
+          />
+          <SidebarItem 
+            icon={<Globe size={20} />} 
+            active={view === 'proxy'} 
+            onClick={() => setView('proxy')}
           />
         </nav>
-
-        <div className="p-4 border-t border-white/5">
-          <button 
-            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            className="w-full mt-2 p-3 flex items-center justify-center text-white/40 hover:text-white transition-colors"
-          >
-            <ChevronRight className={`transition-transform duration-300 ${isSidebarCollapsed ? '' : 'rotate-180'}`} size={20} />
-          </button>
-        </div>
-      </motion.aside>
+      </aside>
 
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto relative">
-        {/* Header */}
-        <header className="sticky top-0 z-10 px-8 py-6 flex items-center justify-between bg-bg/80 backdrop-blur-xl">
-          <div className="flex items-center gap-2 text-white/60">
-            <span className="text-white font-medium">Featured</span>
-            <span className="mx-2">|</span>
-            <span>February 2026</span>
-          </div>
+        {/* Header - Only show in Library, Proxy or when searching */}
+        <AnimatePresence>
+          {(view === 'library' || view === 'proxy' || searchQuery) && (
+            <motion.header 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="sticky top-0 z-10 px-8 py-6 flex items-center justify-between bg-bg/80 backdrop-blur-xl"
+            >
+              <div className="flex items-center gap-2 text-white/60">
+                <span className="text-white font-medium">
+                  {view === 'library' ? 'Library' : view === 'proxy' ? 'Proxy' : 'Search'}
+                </span>
+              </div>
 
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={18} />
-              <input 
-                type="text" 
-                placeholder="Search games..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-surface border border-white/5 rounded-full pl-10 pr-4 py-2 w-64 focus:outline-none focus:border-accent/50 transition-colors"
-              />
-            </div>
-          </div>
-        </header>
+              <div className="flex items-center gap-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                  <input 
+                    type="text" 
+                    placeholder="Search games..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="bg-surface border border-white/5 rounded-full pl-10 pr-4 py-2 w-64 focus:outline-none focus:border-accent/50 transition-colors"
+                  />
+                </div>
+              </div>
+            </motion.header>
+          )}
+        </AnimatePresence>
 
-        <div className="px-8 pb-12">
-          {/* Hero Section */}
-          {selectedCategory === 'All' && !searchQuery && (
-            <div className="relative h-[400px] rounded-3xl overflow-hidden mb-12 group">
+        <div className="px-8 pb-12 pt-6">
+          {/* Hero Section - Only show on Home */}
+          {view === 'home' && !searchQuery && (
+            <div className="relative h-[calc(100vh-100px)] rounded-3xl overflow-hidden mb-12 group">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={featuredGame.id}
@@ -157,30 +171,58 @@ export default function App() {
             </div>
           )}
 
-          {/* Game Grid */}
-          <section>
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-display font-bold">
-                {searchQuery ? `Search results for "${searchQuery}"` : `${selectedCategory} Games`}
-              </h2>
-              <div className="flex gap-2">
-                <div className="bg-surface px-4 py-2 rounded-lg text-sm text-white/60 border border-white/5">
-                  {filteredGames.length} Games
+          {/* Game Grid - Only show on Library or when searching */}
+          {(view === 'library' || searchQuery) && (
+            <section>
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-display font-bold">
+                  {searchQuery ? `Search results for "${searchQuery}"` : `All Games`}
+                </h2>
+                <div className="flex gap-2">
+                  <div className="bg-surface px-4 py-2 rounded-lg text-sm text-white/60 border border-white/5">
+                    {filteredGames.length} Games
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredGames.map((game, index) => (
-                <GameCard 
-                  key={game.id} 
-                  game={game} 
-                  index={index}
-                  onClick={() => setActiveGame(game)}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredGames.map((game, index) => (
+                  <GameCard 
+                    key={game.id} 
+                    game={game} 
+                    index={index}
+                    onClick={() => setActiveGame(game)}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Proxy Section */}
+          {view === 'proxy' && !searchQuery && (
+            <div className="relative group">
+              <motion.div 
+                ref={proxyContainerRef}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-full h-[calc(100vh-140px)] rounded-3xl overflow-hidden bg-black border border-white/5 shadow-2xl"
+              >
+                <iframe 
+                  src="https://useadurite.netlify.app/"
+                  className="w-full h-full border-none"
+                  title="Proxy"
+                  allow="autoplay; fullscreen; pointer-lock"
                 />
-              ))}
+              </motion.div>
+              <button 
+                onClick={() => handleFullscreen(proxyContainerRef)}
+                className="absolute top-4 right-4 p-3 bg-bg/40 backdrop-blur-md hover:bg-accent text-white rounded-xl opacity-0 group-hover:opacity-100 transition-all shadow-xl border border-white/10"
+                title="Fullscreen"
+              >
+                <Maximize2 size={20} />
+              </button>
             </div>
-          </section>
+          )}
         </div>
       </main>
 
@@ -209,7 +251,10 @@ export default function App() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button className="p-2 hover:bg-white/5 rounded-lg text-white/60 hover:text-white transition-colors">
+                  <button 
+                    onClick={() => handleFullscreen(iframeContainerRef)}
+                    className="p-2 hover:bg-white/5 rounded-lg text-white/60 hover:text-white transition-colors"
+                  >
                     <Maximize2 size={20} />
                   </button>
                   <button 
@@ -222,7 +267,7 @@ export default function App() {
               </div>
 
               {/* Iframe Container */}
-              <div className="flex-1 bg-black relative">
+              <div ref={iframeContainerRef} className="flex-1 bg-black relative">
                 <iframe 
                   src={activeGame.iframeUrl}
                   className="w-full h-full border-none"
@@ -238,19 +283,18 @@ export default function App() {
   );
 }
 
-const SidebarItem = ({ icon, label, active = false, onClick, collapsed }) => {
+const SidebarItem = ({ icon, active = false, onClick }) => {
   return (
     <button 
       onClick={onClick}
       className={`
-        w-full flex items-center gap-4 p-3 rounded-xl transition-all group
+        w-full flex items-center justify-center p-3 rounded-xl transition-all group
         ${active ? 'bg-accent text-white shadow-lg shadow-accent/20' : 'text-white/40 hover:text-white hover:bg-white/5'}
       `}
     >
       <div className={`${active ? 'text-white' : 'group-hover:scale-110 transition-transform'}`}>
         {icon}
       </div>
-      {!collapsed && <span className="font-medium">{label}</span>}
     </button>
   );
 };

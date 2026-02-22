@@ -18,5 +18,15 @@ export const GAMES = [
     rating: 4.6,
     plays: '5.5K',
     description: 'High-speed racing in a neon-drenched future.'
+  },
+  {
+    id: '7',
+    title: 'Minecraft',
+    thumbnail: 'https://picsum.photos/seed/minecraft/400/225',
+    iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/minecraft/tuff/index.html',
+    category: 'Adventure',
+    rating: 4.9,
+    plays: '25.4K',
+    description: 'Explore, build, and survive in this blocky sandbox world.'
   }
 ];
