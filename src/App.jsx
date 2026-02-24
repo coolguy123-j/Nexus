@@ -212,21 +212,21 @@ export default function App() {
                 </div>
 
                 {/* Navigation Icons (Right Side) */}
-                <div className="lg:col-span-2 flex flex-row lg:flex-col gap-6 justify-center items-center">
+                <div className="lg:col-span-2 flex flex-row lg:flex-col gap-4 justify-center items-center">
                   <NavIconButton 
-                    icon={<Gamepad2 size={32} />} 
+                    icon={<Gamepad2 size={24} />} 
                     label="Library"
                     onClick={() => setView('library')}
                     color="hover:bg-blue-500/20 hover:text-blue-400"
                   />
                   <NavIconButton 
-                    icon={<Globe size={32} />} 
+                    icon={<Globe size={24} />} 
                     label="Proxy"
                     onClick={() => setView('proxy')}
                     color="hover:bg-purple-500/20 hover:text-purple-400"
                   />
                   <NavIconButton 
-                    icon={<LayoutGrid size={32} />} 
+                    icon={<LayoutGrid size={24} />} 
                     label="Categories"
                     onClick={() => {
                       setView('categories');
@@ -235,13 +235,13 @@ export default function App() {
                     color="hover:bg-emerald-500/20 hover:text-emerald-400"
                   />
                   <NavIconButton 
-                    icon={<Bot size={32} />} 
+                    icon={<Bot size={24} />} 
                     label="AI Chat"
                     onClick={() => setView('ai')}
                     color="hover:bg-orange-500/20 hover:text-orange-400"
                   />
                   <NavIconButton 
-                    icon={<Smartphone size={32} />} 
+                    icon={<Smartphone size={24} />} 
                     label="Android"
                     onClick={() => setView('android')}
                     color="hover:bg-red-500/20 hover:text-red-400"
@@ -482,15 +482,15 @@ export default function App() {
 const NavIconButton = ({ icon, label, onClick, color }) => {
   return (
     <motion.button
-      whileHover={{ y: -5, scale: 1.05 }}
+      whileHover={{ y: -3, scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
-      className={`flex flex-col items-center gap-2 group`}
+      className={`flex flex-col items-center gap-1.5 group`}
     >
-      <div className={`w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 transition-all ${color} group-hover:border-white/20 shadow-xl`}>
+      <div className={`w-14 h-14 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 transition-all ${color} group-hover:border-white/20 shadow-lg`}>
         {icon}
       </div>
-      <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors uppercase tracking-widest">{label}</span>
+      <span className="text-[10px] font-bold text-white/40 group-hover:text-white transition-colors uppercase tracking-wider">{label}</span>
     </motion.button>
   );
 };
