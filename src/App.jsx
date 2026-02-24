@@ -14,7 +14,8 @@ import {
   TrendingUp, 
   X,
   Maximize2,
-  Globe
+  Globe,
+  ArrowLeft
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GAMES } from './constants';
@@ -25,6 +26,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeGame, setActiveGame] = useState(null);
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+  const [selectedCategoryView, setSelectedCategoryView] = useState(null);
   const iframeContainerRef = useRef(null);
   const proxyContainerRef = useRef(null);
 
@@ -63,6 +65,27 @@ export default function App() {
 
   const featuredGame = FEATURED_GAMES[currentHeroIndex] || FEATURED_GAMES[0];
 
+  const gamesByCategory = useMemo(() => {
+    const grouped = {};
+    GAMES.forEach(game => {
+      if (!grouped[game.category]) {
+        grouped[game.category] = [];
+      }
+      grouped[game.category].push(game);
+    });
+    return grouped;
+  }, []);
+
+  const categoryColors = {
+    'Horror': 'from-red-600 to-red-900',
+    'Arcade': 'from-blue-600 to-blue-900',
+    'Action': 'from-orange-600 to-orange-900',
+    'Sports': 'from-green-600 to-green-900',
+    'Simulation': 'from-purple-600 to-purple-900',
+    'Adventure': 'from-yellow-600 to-yellow-900',
+    'Racing': 'from-pink-600 to-pink-900',
+  };
+
   return (
     <div className="flex h-screen bg-bg overflow-hidden">
       {/* Sidebar */}
@@ -87,6 +110,14 @@ export default function App() {
             active={view === 'proxy'} 
             onClick={() => setView('proxy')}
           />
+          <SidebarItem 
+            icon={<LayoutGrid size={20} />} 
+            active={view === 'categories'} 
+            onClick={() => {
+              setView('categories');
+              setSelectedCategoryView(null);
+            }}
+          />
         </nav>
       </aside>
 
@@ -94,7 +125,7 @@ export default function App() {
       <main className="flex-1 overflow-y-auto relative">
         {/* Header - Only show in Library, Proxy or when searching */}
         <AnimatePresence>
-          {(view === 'library' || view === 'proxy' || searchQuery) && (
+          {(view === 'library' || view === 'proxy' || view === 'categories' || searchQuery) && (
             <motion.header 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -103,7 +134,7 @@ export default function App() {
             >
               <div className="flex items-center gap-2 text-white/60">
                 <span className="text-white font-medium">
-                  {view === 'library' ? 'Library' : view === 'proxy' ? 'Proxy' : 'Search'}
+                  {view === 'library' ? 'Library' : view === 'proxy' ? 'Proxy' : view === 'categories' ? 'Categories' : 'Search'}
                 </span>
               </div>
 
@@ -239,6 +270,69 @@ export default function App() {
               >
                 <Maximize2 size={20} />
               </button>
+            </div>
+          )}
+
+          {/* Categories Section */}
+          {view === 'categories' && !searchQuery && (
+            <div className="space-y-8">
+              {!selectedCategoryView ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {Object.entries(gamesByCategory).map(([category, games], index) => (
+                    <motion.div
+                      key={category}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      whileHover={{ scale: 1.02, y: -5 }}
+                      onClick={() => setSelectedCategoryView(category)}
+                      className={`relative aspect-[4/3] rounded-3xl overflow-hidden cursor-pointer group shadow-xl`}
+                    >
+                      <div className={`absolute inset-0 bg-gradient-to-br ${categoryColors[category] || 'from-zinc-600 to-zinc-900'} transition-transform duration-500 group-hover:scale-110`} />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+                      <div className="absolute inset-0 p-8 flex flex-col justify-between">
+                        <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10">
+                          <Gamepad2 className="text-white" size={24} />
+                        </div>
+                        <div>
+                          <h3 className="text-3xl font-display font-black text-white mb-2 tracking-tight uppercase italic">{category}</h3>
+                          <p className="text-white/60 font-medium">{games.length} Games</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <div className="space-y-8">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <button 
+                        onClick={() => setSelectedCategoryView(null)}
+                        className="p-2 hover:bg-white/5 rounded-xl text-white/60 hover:text-white transition-all border border-white/5"
+                      >
+                        <ArrowLeft size={20} />
+                      </button>
+                      <div className="flex items-center gap-3">
+                        <div className="w-1 h-8 bg-accent rounded-full" />
+                        <h2 className="text-3xl font-display font-bold text-white uppercase italic tracking-tight">{selectedCategoryView}</h2>
+                      </div>
+                    </div>
+                    <div className="bg-surface px-4 py-2 rounded-lg text-sm text-white/60 border border-white/5">
+                      {gamesByCategory[selectedCategoryView].length} Games
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {gamesByCategory[selectedCategoryView].map((game, index) => (
+                      <GameCard 
+                        key={game.id} 
+                        game={game} 
+                        index={index}
+                        onClick={() => setActiveGame(game)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

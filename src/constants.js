@@ -102,7 +102,7 @@ export const GAMES = [
   {
     id: '17',
     title: 'Drift Boss',
-    thumbnail: 'https://picsum.photos/seed/driftboss/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771799722436-0180c572-baae-45dc-a8de-439ff46d9b94.jpg',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/drift-boss/',
     category: 'Racing',
     rating: 4.7,
@@ -112,7 +112,7 @@ export const GAMES = [
   {
     id: '18',
     title: 'One Night in 2D',
-    thumbnail: 'https://picsum.photos/seed/onenight/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771894670742-1d93aedc-a3cd-4a6b-a0a1-cb11fe565cd4.png',
     iframeUrl: 'https://html.itch.zone/html/13897913/index.html',
     category: 'Horror',
     rating: 4.5,
@@ -122,7 +122,7 @@ export const GAMES = [
   {
     id: '19',
     title: 'FNAF 2',
-    thumbnail: 'https://picsum.photos/seed/fnaf2/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771894748263-002ae351-9dc8-4356-8bb9-312aeed163d2.webp',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/fnaf2/',
     category: 'Horror',
     rating: 4.8,
@@ -132,7 +132,7 @@ export const GAMES = [
   {
     id: '20',
     title: 'FNAF 3',
-    thumbnail: 'https://picsum.photos/seed/fnaf3/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771894867295-51cafe28-9857-4178-b741-322e7f64605b.jpg',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/fnaf3/',
     category: 'Horror',
     rating: 4.7,
@@ -142,7 +142,7 @@ export const GAMES = [
   {
     id: '21',
     title: 'Geometry Dash',
-    thumbnail: 'https://picsum.photos/seed/gd/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771894906442-011db656-6596-42c3-9d00-1d3d8eadb607.jpg',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/gdlite/',
     category: 'Arcade',
     rating: 4.9,
@@ -152,7 +152,7 @@ export const GAMES = [
   {
     id: '22',
     title: 'Monkey Mart',
-    thumbnail: 'https://picsum.photos/seed/monkey/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771894959987-95510f96-25f8-4b8e-b3d1-c51a8a3b74b1.png',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/monkey-mart/',
     category: 'Arcade',
     rating: 4.8,
@@ -162,7 +162,7 @@ export const GAMES = [
   {
     id: '23',
     title: 'Nazi Zombies',
-    thumbnail: 'https://picsum.photos/seed/nzp/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771895024301-fd1debb5-a239-4a17-8e21-3be285a9afb1.png',
     iframeUrl: 'https://nzp.gay/',
     category: 'Action',
     rating: 4.9,
@@ -172,7 +172,7 @@ export const GAMES = [
   {
     id: '24',
     title: 'OVO',
-    thumbnail: 'https://picsum.photos/seed/ovo/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771895086355-ad6b5840-ed80-4cf6-ac47-41aada7343b0.webp',
     iframeUrl: 'https://frogiesarcade.net/cdn/projects/ovo/',
     category: 'Arcade',
     rating: 4.7,
@@ -182,7 +182,7 @@ export const GAMES = [
   {
     id: '25',
     title: 'People Playground',
-    thumbnail: 'https://picsum.photos/seed/playground/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771895135646-1b507f90-2507-4096-8d92-87e1e12a213a.jpg',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/ppgbog/',
     category: 'Simulation',
     rating: 4.8,
@@ -192,7 +192,7 @@ export const GAMES = [
   {
     id: '26',
     title: 'Retro Bowl',
-    thumbnail: 'https://picsum.photos/seed/retrobowl/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771895196082-002f724e-feee-4ddc-9b72-066d7a40157e.avif',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/retro-bowl/',
     category: 'Sports',
     rating: 4.9,
@@ -202,7 +202,7 @@ export const GAMES = [
   {
     id: '27',
     title: 'Run 3',
-    thumbnail: 'https://picsum.photos/seed/run3/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771895232389-54d56bd4-5b41-461f-a17b-7d78baaff23b.jpg',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/run3/',
     category: 'Arcade',
     rating: 4.8,
@@ -212,7 +212,7 @@ export const GAMES = [
   {
     id: '28',
     title: 'Slope',
-    thumbnail: 'https://picsum.photos/seed/slope/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771895295146-d11d6745-b64b-479f-8580-65dd3419aa55.jpg',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/slope/',
     category: 'Arcade',
     rating: 4.8,
@@ -222,7 +222,7 @@ export const GAMES = [
   {
     id: '29',
     title: 'Stickman Hook',
-    thumbnail: 'https://picsum.photos/seed/stickmanhook/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771895343765-18022949-33f1-4df9-be06-454be57b1c40.png',
     iframeUrl: 'https://frogiesarcade.net/cdn/projects/stickman-hook/',
     category: 'Arcade',
     rating: 4.8,
@@ -232,7 +232,7 @@ export const GAMES = [
   {
     id: '30',
     title: 'Subway Surfers',
-    thumbnail: 'https://picsum.photos/seed/subway/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771895459315-11d22eff-0452-4c07-8158-1c1c76fa0ab4.webp',
     iframeUrl: 'https://frogiesarcade.net/cdn/projects/subway-surfers/',
     category: 'Arcade',
     rating: 4.9,
@@ -242,7 +242,7 @@ export const GAMES = [
   {
     id: '31',
     title: 'Tomb of the Mask',
-    thumbnail: 'https://picsum.photos/seed/tomb/400/225',
+    thumbnail: 'https://image2url.com/r2/default/images/1771895519345-21b474f7-b150-432c-92b7-bb4abe02aa0d.png',
     iframeUrl: 'https://frogiesarcade.net/stuff/selfhosted/tomb-of-the-mask/',
     category: 'Arcade',
     rating: 4.8,
