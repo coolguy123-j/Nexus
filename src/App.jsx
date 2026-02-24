@@ -15,7 +15,8 @@ import {
   X,
   Maximize2,
   Globe,
-  ArrowLeft
+  ArrowLeft,
+  Bot
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GAMES } from './constants';
@@ -29,8 +30,9 @@ export default function App() {
   const [selectedCategoryView, setSelectedCategoryView] = useState(null);
   const iframeContainerRef = useRef(null);
   const proxyContainerRef = useRef(null);
+  const aiContainerRef = useRef(null);
 
-  const FEATURED_GAMES = useMemo(() => GAMES.slice(0, 3), []);
+  const FEATURED_GAMES = useMemo(() => GAMES.slice(0, 6), []);
 
   const handleFullscreen = (ref) => {
     if (ref.current) {
@@ -88,53 +90,31 @@ export default function App() {
 
   return (
     <div className="flex h-screen bg-bg overflow-hidden">
-      {/* Sidebar */}
-      <aside className="w-20 flex flex-col border-r border-white/5 bg-surface z-20">
-        <div className="p-6 flex justify-center">
-          <button 
-            onClick={() => setView('home')}
-            className={`w-10 h-10 rounded-xl flex items-center justify-center font-display font-extrabold text-2xl transition-all ${view === 'home' ? 'bg-accent text-white shadow-lg shadow-accent/20' : 'bg-white/5 text-white/40 hover:text-white'}`}
-          >
-            N
-          </button>
-        </div>
-
-        <nav className="flex-1 px-4 space-y-2 mt-4">
-          <SidebarItem 
-            icon={<Gamepad2 size={20} />} 
-            active={view === 'library'} 
-            onClick={() => setView('library')}
-          />
-          <SidebarItem 
-            icon={<Globe size={20} />} 
-            active={view === 'proxy'} 
-            onClick={() => setView('proxy')}
-          />
-          <SidebarItem 
-            icon={<LayoutGrid size={20} />} 
-            active={view === 'categories'} 
-            onClick={() => {
-              setView('categories');
-              setSelectedCategoryView(null);
-            }}
-          />
-        </nav>
-      </aside>
-
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto relative">
-        {/* Header - Only show in Library, Proxy or when searching */}
+        {/* Header - Only show when not on home or when searching */}
         <AnimatePresence>
-          {(view === 'library' || view === 'proxy' || view === 'categories' || searchQuery) && (
+          {(view !== 'home' || searchQuery) && (
             <motion.header 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               className="sticky top-0 z-10 px-8 py-6 flex items-center justify-between bg-bg/80 backdrop-blur-xl"
             >
-              <div className="flex items-center gap-2 text-white/60">
+              <div className="flex items-center gap-4">
+                {view !== 'home' && (
+                  <button 
+                    onClick={() => {
+                      setView('home');
+                      setSelectedCategoryView(null);
+                    }}
+                    className="p-2 hover:bg-white/5 rounded-xl text-white/60 hover:text-white transition-all border border-white/5"
+                  >
+                    <ArrowLeft size={20} />
+                  </button>
+                )}
                 <span className="text-white font-medium">
-                  {view === 'library' ? 'Library' : view === 'proxy' ? 'Proxy' : view === 'categories' ? 'Categories' : 'Search'}
+                  {view === 'library' ? 'Library' : view === 'proxy' ? 'Proxy' : view === 'ai' ? 'AI' : view === 'categories' ? 'Categories' : 'Search'}
                 </span>
               </div>
 
@@ -155,10 +135,10 @@ export default function App() {
         </AnimatePresence>
 
         <div className="px-8 pb-12 pt-6">
-          {/* Hero Section - Only show on Home */}
+          {/* Home Dashboard */}
           {view === 'home' && !searchQuery && (
             <>
-              <div className="mb-8 flex items-center justify-between">
+              <div className="mb-12 flex items-center justify-between">
                 <h1 className="text-4xl font-display font-black text-white tracking-tighter">
                   NEXUS <span className="text-accent">ARCADE</span>
                 </h1>
@@ -175,47 +155,80 @@ export default function App() {
                   </div>
                 </div>
               </div>
-              <div className="relative h-[calc(100vh-180px)] rounded-3xl overflow-hidden mb-12 group">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={featuredGame.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.8 }}
-                  className="absolute inset-0"
-                >
-                  <img 
-                    src={featuredGame.thumbnail} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    alt={featuredGame.title}
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 p-10 max-w-2xl">
-                    <h1 className="text-6xl font-display font-extrabold mb-4 tracking-tight">{featuredGame.title}</h1>
-                    <p className="text-white/60 text-lg mb-8 line-clamp-2">{featuredGame.description}</p>
-                    <button 
-                      onClick={() => setActiveGame(featuredGame)}
-                      className="bg-white text-bg px-8 py-4 rounded-2xl font-bold flex items-center gap-3 hover:bg-accent hover:text-white transition-all transform hover:scale-105 active:scale-95"
-                    >
-                      <Play size={20} fill="currentColor" />
-                      Play Now
-                    </button>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-              
-              {/* Slide Indicators */}
-              <div className="absolute bottom-6 right-10 flex gap-2 z-10">
-                {FEATURED_GAMES.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentHeroIndex(idx)}
-                    className={`w-2 h-2 rounded-full transition-all ${idx === currentHeroIndex ? 'bg-white w-6' : 'bg-white/30'}`}
-                  />
-                ))}
+
+              {/* Hero Slider */}
+              <div className="relative h-[500px] rounded-3xl overflow-hidden mb-8 group">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={featuredGame.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="absolute inset-0"
+                  >
+                    <img 
+                      src={featuredGame.thumbnail} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      alt={featuredGame.title}
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/20 to-transparent" />
+                    <div className="absolute bottom-0 left-0 p-10 max-w-2xl">
+                      <h1 className="text-6xl font-display font-extrabold mb-4 tracking-tight">{featuredGame.title}</h1>
+                      <p className="text-white/60 text-lg mb-8 line-clamp-2">{featuredGame.description}</p>
+                      <button 
+                        onClick={() => setActiveGame(featuredGame)}
+                        className="bg-white text-bg px-8 py-4 rounded-2xl font-bold flex items-center gap-3 hover:bg-accent hover:text-white transition-all transform hover:scale-105 active:scale-95"
+                      >
+                        <Play size={20} fill="currentColor" />
+                        Play Now
+                      </button>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+                
+                {/* Slide Indicators */}
+                <div className="absolute bottom-6 right-10 flex gap-2 z-10">
+                  {FEATURED_GAMES.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentHeroIndex(idx)}
+                      className={`w-2 h-2 rounded-full transition-all ${idx === currentHeroIndex ? 'bg-white w-6' : 'bg-white/30'}`}
+                    />
+                  ))}
+                </div>
               </div>
+
+              {/* Navigation Icons */}
+              <div className="flex items-center justify-center gap-6 mb-12">
+                <NavIconButton 
+                  icon={<Gamepad2 size={24} />} 
+                  label="Library"
+                  onClick={() => setView('library')}
+                  color="hover:bg-blue-500/20 hover:text-blue-400"
+                />
+                <NavIconButton 
+                  icon={<Globe size={24} />} 
+                  label="Proxy"
+                  onClick={() => setView('proxy')}
+                  color="hover:bg-purple-500/20 hover:text-purple-400"
+                />
+                <NavIconButton 
+                  icon={<LayoutGrid size={24} />} 
+                  label="Categories"
+                  onClick={() => {
+                    setView('categories');
+                    setSelectedCategoryView(null);
+                  }}
+                  color="hover:bg-emerald-500/20 hover:text-emerald-400"
+                />
+                <NavIconButton 
+                  icon={<Bot size={24} />} 
+                  label="AI Chat"
+                  onClick={() => setView('ai')}
+                  color="hover:bg-orange-500/20 hover:text-orange-400"
+                />
               </div>
             </>
           )}
@@ -265,6 +278,33 @@ export default function App() {
               </motion.div>
               <button 
                 onClick={() => handleFullscreen(proxyContainerRef)}
+                className="absolute top-4 right-4 p-3 bg-bg/40 backdrop-blur-md hover:bg-accent text-white rounded-xl opacity-0 group-hover:opacity-100 transition-all shadow-xl border border-white/10"
+                title="Fullscreen"
+              >
+                <Maximize2 size={20} />
+              </button>
+            </div>
+          )}
+
+          {/* AI Section */}
+          {view === 'ai' && !searchQuery && (
+            <div className="relative group">
+              <motion.div 
+                ref={aiContainerRef}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-full h-[calc(100vh-140px)] rounded-3xl overflow-hidden bg-black border border-white/5 shadow-2xl"
+              >
+                <iframe 
+                  id="v-iframe-player"
+                  src="https://gptlite.vercel.app/chat"
+                  className="w-full h-full border-none"
+                  title="AI Chat"
+                  allow="autoplay; fullscreen; pointer-lock"
+                />
+              </motion.div>
+              <button 
+                onClick={() => handleFullscreen(aiContainerRef)}
                 className="absolute top-4 right-4 p-3 bg-bg/40 backdrop-blur-md hover:bg-accent text-white rounded-xl opacity-0 group-hover:opacity-100 transition-all shadow-xl border border-white/10"
                 title="Fullscreen"
               >
@@ -394,6 +434,39 @@ export default function App() {
     </div>
   );
 }
+
+const NavIconButton = ({ icon, label, onClick, color }) => {
+  return (
+    <motion.button
+      whileHover={{ y: -5, scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      onClick={onClick}
+      className={`flex flex-col items-center gap-2 group`}
+    >
+      <div className={`w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 transition-all ${color} group-hover:border-white/20 shadow-lg`}>
+        {icon}
+      </div>
+      <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors uppercase tracking-wider">{label}</span>
+    </motion.button>
+  );
+};
+
+const NavCard = ({ icon, title, description, onClick, color }) => {
+  return (
+    <motion.div
+      whileHover={{ y: -5, scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={onClick}
+      className={`bg-gradient-to-br ${color} border border-white/5 p-6 rounded-3xl cursor-pointer group transition-all hover:border-white/10`}
+    >
+      <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-4 group-hover:bg-accent group-hover:text-white transition-all">
+        {icon}
+      </div>
+      <h3 className="text-xl font-display font-bold text-white mb-1">{title}</h3>
+      <p className="text-sm text-white/40">{description}</p>
+    </motion.div>
+  );
+};
 
 const SidebarItem = ({ icon, active = false, onClick }) => {
   return (
