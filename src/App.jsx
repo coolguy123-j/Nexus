@@ -16,7 +16,8 @@ import {
   Maximize2,
   Globe,
   ArrowLeft,
-  Bot
+  Bot,
+  Smartphone
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GAMES } from './constants';
@@ -31,6 +32,7 @@ export default function App() {
   const iframeContainerRef = useRef(null);
   const proxyContainerRef = useRef(null);
   const aiContainerRef = useRef(null);
+  const androidContainerRef = useRef(null);
 
   const FEATURED_GAMES = useMemo(() => GAMES.slice(0, 6), []);
 
@@ -156,79 +158,95 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Hero Slider */}
-              <div className="relative h-[500px] rounded-3xl overflow-hidden mb-8 group">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={featuredGame.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="absolute inset-0"
-                  >
-                    <img 
-                      src={featuredGame.thumbnail} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      alt={featuredGame.title}
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/20 to-transparent" />
-                    <div className="absolute bottom-0 left-0 p-10 max-w-2xl">
-                      <h1 className="text-6xl font-display font-extrabold mb-4 tracking-tight">{featuredGame.title}</h1>
-                      <p className="text-white/60 text-lg mb-8 line-clamp-2">{featuredGame.description}</p>
-                      <button 
-                        onClick={() => setActiveGame(featuredGame)}
-                        className="bg-white text-bg px-8 py-4 rounded-2xl font-bold flex items-center gap-3 hover:bg-accent hover:text-white transition-all transform hover:scale-105 active:scale-95"
-                      >
-                        <Play size={20} fill="currentColor" />
-                        Play Now
-                      </button>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-                
-                {/* Slide Indicators */}
-                <div className="absolute bottom-6 right-10 flex gap-2 z-10">
-                  {FEATURED_GAMES.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentHeroIndex(idx)}
-                      className={`w-2 h-2 rounded-full transition-all ${idx === currentHeroIndex ? 'bg-white w-6' : 'bg-white/30'}`}
-                    />
-                  ))}
-                </div>
-              </div>
 
-              {/* Navigation Icons */}
-              <div className="flex items-center justify-center gap-6 mb-12">
-                <NavIconButton 
-                  icon={<Gamepad2 size={24} />} 
-                  label="Library"
-                  onClick={() => setView('library')}
-                  color="hover:bg-blue-500/20 hover:text-blue-400"
-                />
-                <NavIconButton 
-                  icon={<Globe size={24} />} 
-                  label="Proxy"
-                  onClick={() => setView('proxy')}
-                  color="hover:bg-purple-500/20 hover:text-purple-400"
-                />
-                <NavIconButton 
-                  icon={<LayoutGrid size={24} />} 
-                  label="Categories"
-                  onClick={() => {
-                    setView('categories');
-                    setSelectedCategoryView(null);
-                  }}
-                  color="hover:bg-emerald-500/20 hover:text-emerald-400"
-                />
-                <NavIconButton 
-                  icon={<Bot size={24} />} 
-                  label="AI Chat"
-                  onClick={() => setView('ai')}
-                  color="hover:bg-orange-500/20 hover:text-orange-400"
-                />
+              {/* Hero Slider & Navigation */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-12">
+                {/* Hero Slider */}
+                <div className="lg:col-span-10 relative h-[400px] rounded-3xl overflow-hidden group shadow-2xl border border-white/5 bg-surface">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={featuredGame.id}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.6 }}
+                      className="absolute inset-0"
+                    >
+                      <img 
+                        src={featuredGame.thumbnail} 
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        alt={featuredGame.title}
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent" />
+                      <div className="absolute bottom-0 left-0 p-8 w-full">
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.2 }}
+                        >
+                          <h1 className="text-4xl font-display font-extrabold mb-2 tracking-tight text-white">{featuredGame.title}</h1>
+                          <p className="text-white/70 text-base mb-6 line-clamp-2 max-w-xl">{featuredGame.description}</p>
+                          <button 
+                            onClick={() => setActiveGame(featuredGame)}
+                            className="bg-accent text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-white hover:text-accent transition-all transform hover:scale-105 active:scale-95 shadow-xl"
+                          >
+                            <Play size={18} fill="currentColor" />
+                            Play Now
+                          </button>
+                        </motion.div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                  
+                  {/* Slide Indicators */}
+                  <div className="absolute top-6 right-8 flex gap-2 z-10">
+                    {FEATURED_GAMES.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setCurrentHeroIndex(idx)}
+                        className={`w-2 h-2 rounded-full transition-all ${idx === currentHeroIndex ? 'bg-accent w-8' : 'bg-white/20 hover:bg-white/40'}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Navigation Icons (Right Side) */}
+                <div className="lg:col-span-2 flex flex-row lg:flex-col gap-6 justify-center items-center">
+                  <NavIconButton 
+                    icon={<Gamepad2 size={32} />} 
+                    label="Library"
+                    onClick={() => setView('library')}
+                    color="hover:bg-blue-500/20 hover:text-blue-400"
+                  />
+                  <NavIconButton 
+                    icon={<Globe size={32} />} 
+                    label="Proxy"
+                    onClick={() => setView('proxy')}
+                    color="hover:bg-purple-500/20 hover:text-purple-400"
+                  />
+                  <NavIconButton 
+                    icon={<LayoutGrid size={32} />} 
+                    label="Categories"
+                    onClick={() => {
+                      setView('categories');
+                      setSelectedCategoryView(null);
+                    }}
+                    color="hover:bg-emerald-500/20 hover:text-emerald-400"
+                  />
+                  <NavIconButton 
+                    icon={<Bot size={32} />} 
+                    label="AI Chat"
+                    onClick={() => setView('ai')}
+                    color="hover:bg-orange-500/20 hover:text-orange-400"
+                  />
+                  <NavIconButton 
+                    icon={<Smartphone size={32} />} 
+                    label="Android"
+                    onClick={() => setView('android')}
+                    color="hover:bg-red-500/20 hover:text-red-400"
+                  />
+                </div>
               </div>
             </>
           )}
@@ -305,6 +323,32 @@ export default function App() {
               </motion.div>
               <button 
                 onClick={() => handleFullscreen(aiContainerRef)}
+                className="absolute top-4 right-4 p-3 bg-bg/40 backdrop-blur-md hover:bg-accent text-white rounded-xl opacity-0 group-hover:opacity-100 transition-all shadow-xl border border-white/10"
+                title="Fullscreen"
+              >
+                <Maximize2 size={20} />
+              </button>
+            </div>
+          )}
+
+          {/* Android Section */}
+          {view === 'android' && !searchQuery && (
+            <div className="relative group">
+              <motion.div 
+                ref={androidContainerRef}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-full h-[calc(100vh-140px)] rounded-3xl overflow-hidden bg-black border border-white/5 shadow-2xl"
+              >
+                <iframe 
+                  src="https://nowgg.fun/apps/uncube/7074/now.html" 
+                  className="w-full h-full border-none"
+                  title="Android Apps"
+                  allow="autoplay; fullscreen; pointer-lock"
+                />
+              </motion.div>
+              <button 
+                onClick={() => handleFullscreen(androidContainerRef)}
                 className="absolute top-4 right-4 p-3 bg-bg/40 backdrop-blur-md hover:bg-accent text-white rounded-xl opacity-0 group-hover:opacity-100 transition-all shadow-xl border border-white/10"
                 title="Fullscreen"
               >
@@ -438,15 +482,15 @@ export default function App() {
 const NavIconButton = ({ icon, label, onClick, color }) => {
   return (
     <motion.button
-      whileHover={{ y: -5, scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
+      whileHover={{ y: -5, scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
       onClick={onClick}
       className={`flex flex-col items-center gap-2 group`}
     >
-      <div className={`w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 transition-all ${color} group-hover:border-white/20 shadow-lg`}>
+      <div className={`w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 transition-all ${color} group-hover:border-white/20 shadow-xl`}>
         {icon}
       </div>
-      <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors uppercase tracking-wider">{label}</span>
+      <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors uppercase tracking-widest">{label}</span>
     </motion.button>
   );
 };

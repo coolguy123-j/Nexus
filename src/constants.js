@@ -1,5 +1,15 @@
 export const GAMES = [
   {
+    id: '32',
+    title: 'Roblox',
+    thumbnail: 'https://image2url.com/r2/default/images/1771898561548-d7487b50-d9fd-46f3-86ea-382ea498149c.jpg',
+    iframeUrl: 'https://nowgg.fun/apps/a/19900/b.html',
+    category: 'Adventure',
+    rating: 4.9,
+    plays: '1.2M',
+    description: 'Roblox is the ultimate virtual universe that lets you create, share experiences with friends, and be anything you can imagine.'
+  },
+  {
     id: '7',
     title: 'Minecraft',
     thumbnail: 'https://image2url.com/r2/default/images/1771799038364-49b917c9-b127-430b-8b07-2aa146bfb9ab.jpg',
