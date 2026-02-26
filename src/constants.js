@@ -1,9 +1,169 @@
 export const GAMES = [
   {
+    id: '48',
+    title: 'Kindergarten',
+    thumbnail: 'https://picsum.photos/seed/kindergarten/800/450',
+    iframeUrl: 'https://elite-gamez.github.io/g/kindergarten%201.html',
+    category: 'Adventure',
+    rating: 4.7,
+    plays: '18.9K',
+    description: 'An abstract puzzle adventure game. You play as a student in a school that is a bit... off. Survive the day in this deadly kindergarten.'
+  },
+  {
+    id: '47',
+    title: 'Infinite Craft',
+    thumbnail: 'https://picsum.photos/seed/infinitecraft/800/450',
+    iframeUrl: 'https://elite-gamez.github.io/g/Infinite%20Craft.html',
+    category: 'Simulation',
+    rating: 4.9,
+    plays: '45.2K',
+    description: 'Combine elements to create anything and everything in this infinite crafting game. Start with Water, Fire, Earth, and Wind and see where your imagination takes you!'
+  },
+  {
+    id: '46',
+    title: 'Barry Has A Secret',
+    thumbnail: 'https://picsum.photos/seed/barrysecret/800/450',
+    iframeUrl: 'https://elite-gamez.github.io/g/Barry%20Has%20a%20Secret.html',
+    category: 'Adventure',
+    rating: 4.8,
+    plays: '12.5K',
+    description: 'Uncover the dark secrets hidden in Barry\'s world in this mysterious adventure game. Explore, solve puzzles, and find out what Barry is hiding.'
+  },
+  {
+    id: '45',
+    title: '2Doom',
+    thumbnail: 'https://picsum.photos/seed/2doom/800/450',
+    iframeUrl: 'blob:https://elite-gamez.github.io/dac5e49e-7a64-43d3-b97e-cad40d6fc8b6',
+    category: 'Action',
+    rating: 4.6,
+    plays: '5.4K',
+    description: 'A retro-style 2D platformer inspired by the classic Doom. Fight your way through demons in this pixelated action game.'
+  },
+  {
+    id: '44',
+    title: 'Snowrider 3d',
+    thumbnail: 'https://picsum.photos/seed/snowrider3d/800/450',
+    iframeUrl: 'https://strongdog.com/5/html/Snow%20Rider%203d/game/index.html',
+    category: 'Sports',
+    rating: 4.9,
+    plays: '22.4K',
+    description: 'Experience the thrill of downhill sledding in this immersive 3D snow riding game. Dodge obstacles and collect gifts!'
+  },
+  {
+    id: '43',
+    title: 'Escape Road 2',
+    thumbnail: 'https://picsum.photos/seed/escaperoad2/800/450',
+    iframeUrl: 'https://strongdog.com/5/html/Escape%20Road%202/game/index.html',
+    category: 'Racing',
+    rating: 4.8,
+    plays: '15.7K',
+    description: 'The sequel to the intense escape racing game. Drive fast, dodge traffic, and escape the pursuit!'
+  },
+  {
+    id: '42',
+    title: 'Survival Race',
+    thumbnail: 'https://picsum.photos/seed/survivalrace/800/450',
+    iframeUrl: 'https://geet.in.net/get/survival-race/embed.html',
+    category: 'Racing',
+    rating: 4.7,
+    plays: '10.2K',
+    description: 'Race for survival in this high-stakes competition. Outrun your opponents and avoid deadly obstacles.'
+  },
+  {
+    id: '41',
+    title: 'Cuphead',
+    thumbnail: 'https://picsum.photos/seed/cuphead/800/450',
+    iframeUrl: 'https://geet.in.net/get/cuphead/embed.html',
+    category: 'Action',
+    rating: 4.9,
+    plays: '85.4K',
+    description: 'A classic run and gun action game heavily focused on boss battles. Inspired by cartoons of the 1930s.'
+  },
+  {
+    id: '40',
+    title: 'Among Us',
+    thumbnail: 'https://picsum.photos/seed/amongus/800/450',
+    iframeUrl: 'https://geet.in.net/get/among-us/game.html',
+    category: 'Action',
+    rating: 4.9,
+    plays: '1.5M',
+    description: 'Play with 4-15 players online or via local WiFi as you attempt to prepare your spaceship for departure, but beware as one or more random players among the Crew are Impostors bent on killing everyone!'
+  },
+  {
+    id: '39',
+    title: 'Deathrun 3d',
+    thumbnail: 'https://picsum.photos/seed/deathrun3d/800/450',
+    iframeUrl: 'https://geet.in.net/get/death-run-3d/game.html',
+    category: 'Action',
+    rating: 4.8,
+    plays: '19.2K',
+    description: 'A fast-paced 3D runner where you must avoid deadly traps and reach the end of the course.'
+  },
+  {
+    id: '38',
+    title: 'Justfall.lol',
+    thumbnail: 'https://picsum.photos/seed/justfall/800/450',
+    iframeUrl: 'https://geet.in.net/get/just-fall/game.html',
+    category: 'Arcade',
+    rating: 4.7,
+    plays: '28.5K',
+    description: 'Compete with other players in this fun physics-based battle royale. Be the last one standing!'
+  },
+  {
+    id: '37',
+    title: 'Tunnel Rush',
+    thumbnail: 'https://picsum.photos/seed/tunnelrush/800/450',
+    iframeUrl: 'https://geet.in.net/get/tunnel-rush/game.html',
+    category: 'Arcade',
+    rating: 4.8,
+    plays: '32.1K',
+    description: 'Race through colorful tunnels at high speeds, dodging obstacles in this intense arcade game.'
+  },
+  {
+    id: '36',
+    title: 'Gladiators',
+    thumbnail: 'https://picsum.photos/seed/gladiators/800/450',
+    iframeUrl: 'https://geet.in.net/get/gladihoppers/embed.html',
+    category: 'Action',
+    rating: 4.7,
+    plays: '12.3K',
+    description: 'Hop into the arena and fight for glory in this pixel-art gladiator combat simulator.'
+  },
+  {
+    id: '35',
+    title: 'Moto X3M',
+    thumbnail: 'https://picsum.photos/seed/motox3m/800/450',
+    iframeUrl: 'https://geet.in.net/get/motox3m/game.html',
+    category: 'Racing',
+    rating: 4.9,
+    plays: '45.2K',
+    description: 'The ultimate bike racing game! Master the tracks, perform stunts, and beat the clock.'
+  },
+  {
+    id: '34',
+    title: 'Backrooms 2d',
+    thumbnail: 'https://picsum.photos/seed/backrooms2d/800/450',
+    iframeUrl: 'https://geet.in.net/get/backrooms-2d/game.html',
+    category: 'Horror',
+    rating: 4.6,
+    plays: '8.5K',
+    description: 'Explore the mysterious and infinite levels of the Backrooms in this 2D survival game.'
+  },
+  {
+    id: '33',
+    title: 'Cluster Rush',
+    thumbnail: 'https://picsum.photos/seed/clusterrush/800/450',
+    iframeUrl: 'https://geet.in.net/get/cluster-rush/game.html',
+    category: 'Action',
+    rating: 4.8,
+    plays: '15.4K',
+    description: 'Jump from truck to truck in this fast-paced first-person platformer. Don\'t fall off!'
+  },
+  {
     id: '32',
     title: 'Roblox',
     thumbnail: 'https://image2url.com/r2/default/images/1771898561548-d7487b50-d9fd-46f3-86ea-382ea498149c.jpg',
-    iframeUrl: 'https://nowgg.fun/apps/a/19900/b.html',
+    iframeUrl: 'https://72.ip.nowgg.fun/apps/a/19900/b.html',
     category: 'Adventure',
     rating: 4.9,
     plays: '1.2M',
